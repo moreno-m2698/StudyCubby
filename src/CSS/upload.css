@@ -1,0 +1,55 @@
+
+
+.upload {
+    color: white;
+    box-sizing: border-box;
+
+    background: rgb(10, 10, 10);
+    width: 100%;
+    text-align: center;
+
+
+}
+
+.upload__label{
+    font-size: 1.75rem;
+    font-weight: normal;
+    height:min-content;
+    margin: .75em;
+}
+
+.upload__radio {
+    display:flex;
+    justify-content: center;
+    width: 100%;
+    margin-bottom: .5em;
+}
+
+.upload__radio input{
+    margin-left: .5em;
+    cursor: pointer;
+}
+
+.upload__header {
+    margin-bottom: .5em;
+}
+
+.upload__mode {
+    margin-bottom: .5em;
+}
+
+form {
+    --form-margin: 8rem;
+    --form-padding: 2em;
+    border: white 1px solid;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    margin: 0 var(--form-margin) 0 var(--form-margin);
+    padding: var(--form-padding) 1em var(--form-padding) 1em;
+}
+
+form li {
+    display: flex;
+    gap: .5em;
+}

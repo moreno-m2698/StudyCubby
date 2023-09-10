@@ -1,0 +1,113 @@
+.player {
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    /*placeholder height value */
+    height: var(--bottom-height);
+    display: grid;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 1fr;
+    z-index: 100;
+    background-color: var(--app-border);
+    padding: .75em;
+    box-sizing: border-box;
+
+}
+
+@media (max-height: 750px) {
+    .player {
+        position: relative;
+    }
+}
+
+
+.player__details {
+    box-sizing: border-box;
+    grid-area: 1 / 1 / -1 / 2;
+    display: flex;
+    gap: .75em;
+
+}
+
+.player__image {
+    width: 4.5rem;
+    height: 4.5rem;
+    border-radius:.375em;
+}
+
+.player__image img {
+    width: 100%;
+    max-width: 4.5rem;
+    border-radius: .375em;
+}
+
+.player__controls {
+    grid-area: 1/ 2/ -1 / 3;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: max-content;
+    width: auto;
+    gap:.5em;
+}
+
+.player__controls  button {
+    cursor: pointer;
+}
+
+
+.player__play {
+    background-color: rgba(143, 155, 215, 1);
+    color:black;
+    border: none;
+    border-radius: 100%;
+    height: 3rem;
+    width: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.player__play:is(:hover, :focus-visible) {
+    background-color: rgb(208, 212, 255);
+    transition: background-color 0.1s;
+}
+
+.player__skip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    height: 2rem;
+    width: 2rem;
+}
+
+.player__skip svg {
+    fill: rgba(143, 155, 215, 0.8);
+}
+
+.player__skip:hover svg {
+    fill: rgb(208, 212, 255);
+}
+
+.player__skip:is(:hover, :focus-visible) {
+    fill: white;
+    transition: fill .2s;
+}
+
+.player__info {
+    display: flex;
+    justify-content: space-evenly;
+    flex-direction: column;
+    white-space: nowrap;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+.player__info h2 {
+    color: white;
+}
+.player__info h3 {
+    color: #8f9bd7;
+}

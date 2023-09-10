@@ -1,0 +1,31 @@
+* {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    color: #cccccc;
+}
+
+
+::-webkit-scrollbar {
+    width: .5em;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #3e446b;
+
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #4848bb;
+    border-radius: 16px;
+}
+
+input[type='submit'] {
+    color: black;
+    margin-top: 1em;
+}
+
+input[type='text'] {
+    color: black;
+    margin: .25em;
+}

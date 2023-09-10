@@ -1,0 +1,105 @@
+.app {
+    --header-height: 4rem;
+    --bottom-height: 6rem;
+    --sidebar-color: #1b2559;
+    --app-color:#000622;
+    --app-border: #1a1a1a;
+
+    width: 100%;
+    min-height: 100dvh;
+    background-color: var(--app-border);
+}
+
+.app__main {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: var(--app-color);
+
+    width: 100%;
+    height: 100%;
+}
+
+.app__header {
+    position: sticky;
+    top: 0;
+    height: var(--header-height);
+    width: 100%;
+    background-color: var(--app-border);
+    z-index: 50;
+}
+
+@media (max-height: 750px) {
+    .app__header {
+        position: relative;
+    }
+}
+
+
+.app__content {
+    display: grid;
+    flex-direction: column;
+    grid-template: 1fr max-content / 1fr;
+    height: calc(100dvh - var(--bottom-height));
+}
+
+.app__body {
+    display: flex;
+    flex-wrap: nowrap;
+    height: 100%;
+}
+
+
+
+.app__nav {
+    z-index: 1;
+    position: fixed;
+    inset: 0 auto auto 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 0;
+    height: 100vh;
+    background-color: #222;
+    opacity: 0;
+    overflow: auto;
+    transition: opacity 0.1s, width 0.1s;
+    flex-direction: column;
+    gap: 1em;
+}
+
+a {
+    color: #fff;
+}
+
+#menu-button {
+    position: absolute;
+    z-index: 100;
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    border-radius: .45em;
+    background: none;
+    width: 3rem;
+    height: 3rem;
+    margin: .45em;
+    opacity: .45;
+}
+
+#menu-button:is(:hover, :focus-visible){
+    opacity: 1;
+    background-color:rgba(34, 34, 34, 0.5);
+}
+
+#menu-button svg{
+    fill: rgb(65, 65, 65);
+    height: 100%;
+    width: 100%;
+}
+
+#menu-button[aria-expanded="true"] ~ .app__nav {
+    opacity: .5;
+    width: min(11rem, 100vw);
+}
+

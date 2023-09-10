@@ -1,0 +1,57 @@
+
+
+.visualizer {
+    height: 100%;
+    flex-grow: 1;
+    overflow: hidden;
+    width: calc(100 - 20rem);
+    border-radius: 1.25em;
+    margin: .5em;
+    display: flex;
+    align-items: center;
+    background: none;
+    z-index: 0;
+    position: relative;
+}
+
+.visualizer__image {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    border-radius: 1.25em;
+    object-fit: cover;
+}
+
+.sidebar {
+    height: 100%;
+    position: relative;
+    z-index: 0;
+    display: grid;
+    grid-template: max-content 1fr / 1fr;
+    box-sizing: border-box;
+    border-radius: 1.25em;
+    width: 20rem;
+    min-width: 20rem;
+    margin: 0.5em;
+    padding: 0.5em;
+    background-color: var(--sidebar-color);
+    overflow-y: auto;
+}
+
+@media (max-width: 1094px) {
+    .sidebar {
+        min-width: initial;
+    }
+}
+
+.sidebar > * {
+    flex-shrink: 0;
+}
+
+.player {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    height: 3em;
+}
+
