@@ -6,7 +6,7 @@ function PlayButton() {
     const {isPlaying, setIsPlaying} = useContext(PlayerContext)
 
     return (
-      
+        (setIsPlaying !== undefined) ?
         <button className="player__play" onClick={() => setIsPlaying(!isPlaying)}>
             {(!isPlaying) ? 
                 <svg role="img" height='16' width='16' viewBox="0 0 16 16">
@@ -16,8 +16,8 @@ function PlayButton() {
                 </svg>
             }
 
-        </button>
-
+        </button> : null
+        
 
     )
 }

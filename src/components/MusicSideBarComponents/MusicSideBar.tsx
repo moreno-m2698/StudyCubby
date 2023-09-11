@@ -11,7 +11,7 @@ function MusicSideBar() {
 
     useEffect(() => {
         (async() => {
-            if (tracks.length === 0 && setTracks !== undefined && setErrorState !== undefined) {
+            if (tracks.length === 0 && setTracks !== undefined && setErrorState !== undefined && setPlayerTracks !== undefined)   {
               
               const response = await getTracks();
               const tracks = response.tracks

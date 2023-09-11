@@ -18,7 +18,7 @@ function MusicTile(props: MusicTileProps) {
 
     const selectTrack = () => {
         console.log(playerTracks.id)
-        if (playerTracks.id != "tracks") {
+        if (playerTracks.id != "tracks" && setPlayerTracks !==undefined) {
             const trackQueue = {
                 id: "tracks",
                 tracks: tracks

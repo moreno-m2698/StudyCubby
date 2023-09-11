@@ -36,14 +36,14 @@ function Player() {
 
     return (
         <PlayerContext.Provider value={{isPlaying, setIsPlaying}}>
-                {(playerTracks.tracks.length === 0) ? null :
+                {(playerTracks.tracks !== undefined) ? ((playerTracks.tracks.length === 0) ? null :
                 <>
                 <audio src={playerTracks.tracks[currentTrackIndex].audio} ref={audioElement}></audio>
                 <Details/>
                 <Controls/>
                 <div className='player-placeholder'>
                 </div>    
-                </>
+                </>): null
                 }  
         </PlayerContext.Provider>
     );

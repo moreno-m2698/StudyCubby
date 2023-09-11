@@ -4,7 +4,9 @@ export interface Track {
     title: string,
     albumId: number,
     artist: string,
-    index: number
+    index: number,
+    image?: string,
+    audio?: string
 }
 
 
@@ -14,7 +16,7 @@ export interface Album {
     artist: string,
     image?: string,
     tracks?: Track[],
-    queueId?: string
+    queueId: string
 }
 
 export interface PlayerTracks { //This interface is used to create queue objects which will be used to help keep track of different players during lazy loading

@@ -9,7 +9,7 @@ function Controls() {
     const {currentTrackIndex, setCurrentTrackIndex, playerTracks} = useContext(AppContext)
 
     const SkipTrack = (forwards = true) => {
-        if (setCurrentTrackIndex  !== undefined) {
+        if (setCurrentTrackIndex  !== undefined && playerTracks.tracks !== undefined) {
 
             const endIndex = playerTracks.tracks.length - 1;
 

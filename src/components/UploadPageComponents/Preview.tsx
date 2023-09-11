@@ -1,4 +1,4 @@
-import React from 'react'
+
 import DraggablePreview from './DraggablePreview'
 
 interface PreviewProps  {
@@ -10,24 +10,21 @@ interface PreviewProps  {
 function Preview(props:PreviewProps) {
 
 
-    const meta = props.fileData
-    
-
-    const handleDragStart = (event, id) => {
+    const handleDragStart = (event: any, id: any) => {
         event.dataTransfer.setData('text/plain', id);
       };
     
-      const handleDragOver = (event) => {
+      const handleDragOver = (event:any ) => {
         event.preventDefault();
       };
     
-      const handleDrop = (event, targetId) => {
+      const handleDrop = (event: any, targetId:any ) => {
         event.preventDefault();
         const sourceId = event.dataTransfer.getData('text/plain');
     
         const updatedElements = [...props.fileData];
-        const sourceIndex = props.fileData.findIndex((el) => el.id === Number(sourceId));
-        const targetIndex = props.fileData.findIndex((el) => el.id === targetId);
+        const sourceIndex = props.fileData.findIndex((el: any) => el.id === Number(sourceId));
+        const targetIndex = props.fileData.findIndex((el: any) => el.id === targetId);
     
         const [movedElement] = updatedElements.splice(sourceIndex, 1);
         updatedElements.splice(targetIndex, 0, movedElement);
@@ -35,8 +32,8 @@ function Preview(props:PreviewProps) {
         props.setFileData(updatedElements);
       };
     
-      const handleInputNameChange = (id, value) => {
-        const updatedElements = props.fileData.map((el) =>
+      const handleInputNameChange = (id: any, value: any) => {
+        const updatedElements = props.fileData.map((el: any) =>
           el.id === id ? { ...el, inputName: value } : el
         );
         props.setFileData(updatedElements);
@@ -45,14 +42,14 @@ function Preview(props:PreviewProps) {
 
   return (
     <ul className='upload__previewer'>
-         {props.fileData.map((element, index) => (
+         {props.fileData.map((element: any, index: any) => (
           <DraggablePreview
             key={element.id}
             id={element.id}
             text={element.fileName}
             index={index}
             inputName={element.inputName}
-            setInputName={(value) => handleInputNameChange(element.id, value)}
+            setInputName={(value: any) => handleInputNameChange(element.id, value)}
             handleDragStart={handleDragStart}
             handleDragOver={handleDragOver}
             handleDrop={handleDrop}

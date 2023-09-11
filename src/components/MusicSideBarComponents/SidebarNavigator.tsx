@@ -1,5 +1,5 @@
-import React, {useState} from 'react'
-//import '../../CSS/sidebarNavigator.css'
+import React from 'react'
+
 
 interface SidebarNavigatorProps {
   playerMode: string|undefined,
@@ -8,7 +8,7 @@ interface SidebarNavigatorProps {
 
 
 function SidebarNavigator(props: SidebarNavigatorProps) {
-    const [selectedRadioButton, setSelectedRadioButton] = useState('');
+    
     const isRadioSelected = (value: string): boolean => props.playerMode === value;
     const handleRadioClick = (event: React.ChangeEvent<HTMLInputElement>): void => props.setPlayerMode(event.currentTarget.value);
   return (

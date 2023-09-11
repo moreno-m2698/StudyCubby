@@ -30,7 +30,7 @@ function AlbumSideBar() {
         if (selected === index) {
             return setSelected(null)
         }
-        if (!album.tracks) {
+        if (!album.tracks && album.image !== undefined && setAlbums !== undefined) {
             const trackResponse = await getAlbumTracks(album.id, album.image);
 
             album.tracks = trackResponse

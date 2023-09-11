@@ -1,20 +1,33 @@
 import React from 'react';
 
-const DraggablePreview = ({ id, text, index, inputName, setInputName, handleDragStart, handleDragOver, handleDrop }) => {
+interface DraggablePreviewProps {
+  id: any,
+  text: any,
+  index: any,
+  inputName: any,
+  setInputName: any,
+  handleDragStart: any,
+  handleDragOver: any,
+  handleDrop: any
+}
+
+
+
+const DraggablePreview = (props:DraggablePreviewProps) => {
   return (
 
       <li className="preview__input"
       draggable="true"
-      onDragStart={(e) => handleDragStart(e, id)}
-      onDragOver={(e) => handleDragOver(e)}
-      onDrop={(e) => handleDrop(e, id)}>
+      onDragStart={(e) => props.handleDragStart(e, props.id)}
+      onDragOver={(e) => props.handleDragOver(e)}
+      onDrop={(e) => props.handleDrop(e, props.id)}>
         <input
           type="text"
-          value={inputName}
-          onChange={(e) => setInputName(e.target.value)}
+          value={props.inputName}
+          onChange={(e) => props.setInputName(e.target.value)}
           placeholder="Track Title"
         />
-        <span>{text}</span>
+        <span>{props.text}</span>
       </li>
   );
 };

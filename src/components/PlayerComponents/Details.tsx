@@ -5,7 +5,8 @@ function Details() {
 
     const {playerTracks: queue, currentTrackIndex} = useContext(AppContext)
 
-    return (<>
+    return (
+    <> {(queue.tracks!!== undefined) ?
         <div className="player__details">
             <img src={queue.tracks[currentTrackIndex].image} alt={queue.tracks[currentTrackIndex].title} className='player__image'/>
             <div className="player__info">
@@ -16,7 +17,7 @@ function Details() {
                         {queue.tracks[currentTrackIndex].artist}
                     </h3>
             </div>
-        </div>
+        </div>: null}
     </>)
 }
 
