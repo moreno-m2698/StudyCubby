@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import axios from 'axios'
 
-const albumEndpoint = process.env.ALBUM_ENDPOINT;
+const albumEndpoint = process.env.VITE_ALBUM_ENDPOINT;
 
 
 function AlbumMaker() {

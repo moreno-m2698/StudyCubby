@@ -4,7 +4,7 @@ import axios from 'axios';
 import { useDropzone } from 'react-dropzone';
 import Preview from './Preview';
 
-const trackEndpoint = process.env.TRACK_ENDPOINT;
+const trackEndpoint = process.env.VITE_TRACK_ENDPOINT;
 
 interface fileData {
     id: number,

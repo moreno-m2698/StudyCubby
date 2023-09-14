@@ -4,7 +4,7 @@ import { getTrackAudio } from "./ApiCalls";
 
 
 
-const backendEndpoint = process.env.ALBUM_ENDPOINT;
+const backendEndpoint = process.env.VITE_ALBUM_ENDPOINT;
 
 export const getAlbumImage = async (albumId: number) => {
     try {

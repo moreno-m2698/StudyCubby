@@ -2,8 +2,8 @@ import axios from "axios";
 import { Track } from "../types";
 import { getAlbumImage } from "./AlbumAPICalls";
 
-  const singleEndpoint = process.env.SINGLE_ENDPOINT;
-  const trackEndpoint = process.env.TRACK_ENDPOINT;
+  const singleEndpoint = process.env.VITE_SINGLE_ENDPOINT;
+  const trackEndpoint = process.env.VITE_TRACK_ENDPOINT;
 
   export const getTrackAudio = async (trackID: number) => {
     try {
