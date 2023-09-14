@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 
-const singleEndpoint = import.meta.env.VITE_SINGLE_ENDPOINT;
+const singleEndpoint = process.env.SINGLE_ENDPOINT;
 
 function SingleMaker() {
 
