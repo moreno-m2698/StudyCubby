@@ -45,6 +45,7 @@ import { getAlbumImage } from "./AlbumAPICalls";
 
 const getSingle = async () => {
   try {
+    if (singleEndpoint !== undefined) {
     const singleResponse = await axios.get(singleEndpoint);
     
     for (let i = 0; i < singleResponse.data.length; i++) {
@@ -56,6 +57,7 @@ const getSingle = async () => {
     }
 
     return singleResponse.data
+    }
 
   } catch (error) {
     console.error("There was an issue access singles", error);
@@ -71,6 +73,7 @@ const getSingle = async () => {
 
 export const getTracks = async () => {
     try {
+      if (trackEndpoint !== undefined) {
         const trackResponse = await axios.get(trackEndpoint)
 
         for (let i=0; i < trackResponse.data.length; i++) {
@@ -88,6 +91,7 @@ export const getTracks = async () => {
             tracks: [...trackResponse.data, ...singleResponse]
         }
         return result;
+      }
     } catch (error) {
         console.log(error); 
         const result: getTracksResponse = {

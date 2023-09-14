@@ -3,6 +3,7 @@ import { Album } from "../types";
 import { getTrackAudio } from "./ApiCalls";
 
 
+
 const backendEndpoint = process.env.ALBUM_ENDPOINT;
 
 export const getAlbumImage = async (albumId: number) => {
@@ -37,6 +38,7 @@ export const getAlbumTracks = async (albumId: number, trackImage: string) => {
 
 export const getAlbums = async () => {
     try {
+        if (backendEndpoint !== undefined){
         const albumResponse = await axios.get(backendEndpoint);
 
         for (let j=0; j < albumResponse.data.length; j++) {
@@ -47,9 +49,11 @@ export const getAlbums = async () => {
             album.queueId = 'a'+`${album.id}`
 
         }
+    
 
         
         return albumResponse.data;
+        }
     } catch (error) {
 
         console.log(error);
