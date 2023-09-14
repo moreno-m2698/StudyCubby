@@ -14,6 +14,7 @@ function MusicSideBar() {
             if (tracks.length === 0 && setTracks !== undefined && setErrorState !== undefined && setPlayerTracks !== undefined)   {
               
               const response = await getTracks();
+              if (response !== undefined) {
               const tracks = response.tracks
               const errorState = response.errorState
               const trackQueue = {
@@ -24,6 +25,7 @@ function MusicSideBar() {
               setPlayerTracks(trackQueue)
               setTracks(tracks)
               setErrorState(errorState)
+            }
             }
           })();
 
