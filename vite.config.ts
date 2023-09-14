@@ -7,7 +7,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [
     react(),
-    EnvironmentPlugin(['ALBUM_ENDPOINT', 'SINGLE_ENDPOINT', 'TRACK_ENDPOINT'])
+    EnvironmentPlugin(['VITE_ALBUM_ENDPOINT', 'VITE_SINGLE_ENDPOINT', 'VITE_TRACK_ENDPOINT'])
   ],
   server: {
     host: true,
