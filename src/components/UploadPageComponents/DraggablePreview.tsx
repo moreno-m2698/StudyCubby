@@ -22,7 +22,8 @@ const DraggablePreview = (props:DraggablePreviewProps) => {
       onDrop={(e) => props.handleDrop(e, props.id)}>
         <input
           type="text"
-          value={props.inputName}
+         
+          defaultValue={props.text}
           onChange={(e) => props.setInputName(e.target.value)}
           placeholder="Track Title"
         />
