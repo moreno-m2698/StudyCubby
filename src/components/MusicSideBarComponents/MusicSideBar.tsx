@@ -10,11 +10,10 @@ function MusicSideBar() {
 
     const {tracks, setTracks, setErrorState, setPlayerTracks} = useContext(AppContext)
 
-    useQuery({
-      queryKey: ["tracks"]
+    const trackQuery = useQuery({
+      queryKey: ["tracks"],
+      queryFn: () => getTracks().then((trackResposnse) => [...trackResposnse.tracks])
     })
-
-
 
     useEffect(() => {
         (async() => {
@@ -42,7 +41,7 @@ function MusicSideBar() {
 
     return (
           <ul className="sidebar__content outer">
-              {tracks.map((track:Track, index) => <MusicTile track={track} key={index} trackIndex={index}/>)}
+              {(trackQuery.isLoading) ? "...Loading" : tracks.map((track:Track, index) => <MusicTile track={track} key={index} trackIndex={index}/>)}
           </ul>
     )
 }
