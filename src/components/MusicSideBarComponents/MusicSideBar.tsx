@@ -3,11 +3,18 @@ import { AppContext } from "../AppContextComponent.tsx"
 import MusicTile from "./MusicTile"
 import { Track } from "../../types.ts"
 import { getTracks } from '../../API/ApiCalls';
+import { useQuery, useMutation } from "@tanstack/react-query"
 
 
 function MusicSideBar() {
 
     const {tracks, setTracks, setErrorState, setPlayerTracks} = useContext(AppContext)
+
+    useQuery({
+      queryKey: ["tracks"]
+    })
+
+
 
     useEffect(() => {
         (async() => {
