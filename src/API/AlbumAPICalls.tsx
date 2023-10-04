@@ -2,11 +2,9 @@ import axios from "axios";
 import { Album } from "../types";
 import { getTrackAudio } from "./ApiCalls";
 
-
-
 const backendEndpoint = process.env.VITE_ALBUM_ENDPOINT;
 
-export const getAlbumImage = async (albumId: number) => {
+export async function getAlbumImage(albumId: number) {
     try {
       const imageResponse = await axios.get(`${backendEndpoint}/image/${albumId}`, { responseType: "blob" });
       let imageBlob = new Blob([imageResponse.data], { type: "image/png" });
@@ -14,11 +12,10 @@ export const getAlbumImage = async (albumId: number) => {
       return imageURL;
     } catch (error) {
       console.log(error);
-      return undefined;
     }
   };
   
-export const getAlbumTracks = async (albumId: number, trackImage: string) => {
+export async function getAlbumTracks(albumId: number, trackImage: string) {
     try {
         const tracksResponse = await axios.get(`${backendEndpoint}/tracks/${albumId}`);
         for (let i=0; i < tracksResponse.data.length; i++) {
@@ -36,7 +33,7 @@ export const getAlbumTracks = async (albumId: number, trackImage: string) => {
     }
 }
 
-export const getAlbums = async () => {
+export async function getAlbums() {
     try {
         if (backendEndpoint !== undefined){
         const albumResponse = await axios.get(backendEndpoint);

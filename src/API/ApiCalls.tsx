@@ -4,6 +4,7 @@ import { getAlbumImage } from "./AlbumAPICalls";
 
 interface getTracksResponse {
   errorState: boolean
+  isEmpty: boolean
   tracks: Track[]
 }
 
@@ -43,45 +44,41 @@ async function getSingleAudio(singleId: number) {
   }
 };
 
-
 async function getSingle() {
-try {
-  if (singleEndpoint !== undefined) {
-  const singleResponse = await axios.get(singleEndpoint);
-  
-  for (let i = 0; i < singleResponse.data.length; i++) {
+  try {
+    if (singleEndpoint !== undefined) {
+    const singleResponse = await axios.get(singleEndpoint);
+    
+    for (let i = 0; i < singleResponse.data.length; i++) {
 
-    const single = singleResponse.data[i]
-    single.image = await getSingleImage(single.id)
-    single.audio = await getSingleAudio(single.id)
+      const single = singleResponse.data[i]
+      single.image = await getSingleImage(single.id)
+      single.audio = await getSingleAudio(single.id)
 
-  }
+    }
 
-  return singleResponse.data}
-  } catch (error) {
-    console.error("There was an issue accessing singles", error);
+    return singleResponse.data}
+    } catch (error) {
+      console.error("There was an issue accessing singles", error);
   }
 }
-
-
-
 
 export async function getTracks() {
   try {
     if (trackEndpoint !== undefined) {
       const trackResponse = await axios.get(trackEndpoint)
-
       for (let i=0; i < trackResponse.data.length; i++) {
 
           const track = trackResponse.data[i];
           track.image = await getAlbumImage(track.albumId);
           track.audio = await getTrackAudio(track.id);
       }
-
       const singleResponse = await getSingle();
+      const all_tracks = [...trackResponse.data, ...singleResponse]
       const result: getTracksResponse = {
-          errorState: false,
-          tracks: [...trackResponse.data, ...singleResponse]
+        errorState: false,
+        isEmpty: (all_tracks.length === 0),
+        tracks: all_tracks
       }
       return result;
     }
