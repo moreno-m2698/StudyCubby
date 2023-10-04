@@ -12,7 +12,7 @@ function MusicSideBar() {
 
     const trackQuery = useQuery({
       queryKey: ["tracks"],
-      queryFn: () => getTracks().then((trackResposnse) => [...trackResposnse.tracks])
+      queryFn: () => getTracks().then((trackResponse) => [...trackResponse.tracks])
     })
 
     useEffect(() => {
