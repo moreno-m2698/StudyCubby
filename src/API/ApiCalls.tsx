@@ -17,8 +17,7 @@ export async function getTrackAudio(trackID: number) {
     const audioURL = URL.createObjectURL(audioBlob);
     return audioURL;
   } catch (error) {
-    console.log(error);
-    return null;
+    console.log(`There was an error grabbing the art for this track: ${trackID}`, error);
   }
 };
 
@@ -29,8 +28,7 @@ async function getSingleImage(singleID:number) {
     const imageURL = URL.createObjectURL(imageBlob);
     return imageURL;
   } catch (error) {
-    console.log(error);
-    return null;
+    console.log(`There was an error grabbing the art for this single: ${singleID}`, error);
   }
 };
 
@@ -41,8 +39,7 @@ async function getSingleAudio(singleId: number) {
     const audioURL = URL.createObjectURL(audioBlob);
     return audioURL;
   } catch (error) {
-    console.log(error);
-    return null;
+    console.log(`There was an error grabbing the audio for this single: ${singleId}`, error);
   }
 };
 
@@ -62,7 +59,7 @@ try {
 
   return singleResponse.data}
   } catch (error) {
-    console.error("There was an issue access singles", error);
+    console.error("There was an issue accessing singles", error);
   }
 }
 
@@ -89,12 +86,8 @@ export async function getTracks() {
       return result;
     }
   } catch (error) {
-      console.log(error); 
-      const result: getTracksResponse = {
-          errorState: true,
-          tracks: []
-      }
-    return result;
+    console.log("There was an error accessing tracks", error); 
+
   }
 }
 

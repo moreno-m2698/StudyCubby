@@ -17,7 +17,7 @@ function MusicSideBar() {
 
   async function trackResponseHandler() {
     try {
-      if (tracks.length === 0 && setTracks !== undefined && setErrorState !== undefined && setPlayerTracks !== undefined) {
+      if (setTracks !== undefined && setErrorState !== undefined && setPlayerTracks !== undefined) {
         const response = await getTracks();
         if (response !== undefined) {
           const tracks = response.tracks
@@ -58,19 +58,18 @@ function MusicSideBar() {
   if (trackQuery.isLoading) 
     return (
       <ul className="sidebar__content outer">
-        <p>"...Loading"</p>
+        <li>"...Loading"</li>
       </ul>
     )
-  if (trackQuery.isError) 
-    return (
-      <pre>{JSON.stringify(trackQuery.error)}</pre>
-    )
-  else 
-    return (
+  // if (trackQuery.isError) 
+  //   return (
+  //     <pre>{JSON.stringify(trackQuery.error)}</pre>
+  //   ) 
+  return (
       <ul className="sidebar__content outer">
         {tracks.map((track:Track, index) => <MusicTile track={track} key={index} trackIndex={index}/>)}
       </ul>
-    )
+  )
 }
 
 export default MusicSideBar
