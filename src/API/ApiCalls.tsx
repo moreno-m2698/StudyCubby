@@ -63,7 +63,6 @@ try {
   return singleResponse.data}
   } catch (error) {
     console.error("There was an issue access singles", error);
-    return []
   }
 }
 
@@ -83,8 +82,6 @@ export async function getTracks() {
       }
 
       const singleResponse = await getSingle();
-
-      
       const result: getTracksResponse = {
           errorState: false,
           tracks: [...trackResponse.data, ...singleResponse]
