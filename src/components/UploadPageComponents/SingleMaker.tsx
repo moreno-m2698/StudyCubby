@@ -29,6 +29,7 @@ function SingleMaker() {
       
           try {
           const audioResult: any = await axios.post(audioUrl, audioFormData);
+          console.log(audioResult.data.id)
           imageFormData.append('id',audioResult.data.id)
           const imageResult: any = await axios.patch(imageUrl, imageFormData);
           console.log("audio", audioResult);
