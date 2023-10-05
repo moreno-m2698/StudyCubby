@@ -3,6 +3,7 @@ import { AppContext } from "../AppContextComponent.tsx"
 import {Album} from "../../types.ts"
 import { getAlbums, getAlbumTracks } from '../../API/AlbumAPICalls.tsx';
 import AlbumUnfoldComponent from "./AlbumUnfoldComponent.tsx";
+import { useQuery } from "@tanstack/react-query"
 
 
 function AlbumSideBar() {
@@ -10,17 +11,35 @@ function AlbumSideBar() {
     const {albums, setAlbums} = useContext(AppContext)
     const [selected, setSelected] = useState<number|null>(null);
 
-    useEffect(() => {
-        (async() => {
-            if (albums.length === 0 && setAlbums !== undefined) {
-                const response = await getAlbums();
-                const newAlbums = response
-                setAlbums(newAlbums)
+    const albumQuery = useQuery({
+        queryKey: ["albums"],
+        queryFn: () => albumResponseHandler()
+      })
 
+
+    async function albumResponseHandler() {
+        try {
+            if (setAlbums !== undefined){
+                const response = await getAlbums();
+                setAlbums(response)
+                return response
             }
-          })();
+          } catch (err) {
+            console.log("There was an error in getting track response: ", err)
+          }
     }
-    ,[])
+    
+    // useEffect(() => {
+    //     (async() => {
+    //         if (albums.length === 0 && setAlbums !== undefined) {
+    //             const response = await getAlbums();
+    //             const newAlbums = response
+    //             setAlbums(newAlbums)
+
+    //         }
+    //       })();
+    // }
+    // ,[])
 
     const accordionToggle = async (index: number) => {
 
@@ -43,7 +62,7 @@ function AlbumSideBar() {
 
     return (
             <ul className='sidebar__content outer'>
-                {albums?.map((album:Album, index) =>
+                {albumQuery.data?.map((album:Album, index: number) =>
                     <li className='sidebar__item' key={index}>
                         <button
                             className='sidebar__button album__button'
