@@ -2,8 +2,8 @@ import { useContext, useState } from "react"
 import { AppContext } from "../AppContextComponent.tsx"
 import {Album} from "../../types.ts"
 import { getAlbums, getAlbumTracks } from '../../API/AlbumAPICalls.tsx';
-import AlbumUnfoldComponent from "./AlbumUnfoldComponent.tsx";
 import { useQuery } from "@tanstack/react-query"
+import AlbumTile from "./AlbumTile.tsx";
 
 
 function AlbumSideBar() {
@@ -41,25 +41,7 @@ function AlbumSideBar() {
     // }
     // ,[])
 
-    
 
-    const accordionToggle = async (index: number) => {
-
-        const album = albums[index]
-
-
-        if (selected === index) {
-            return setSelected(null)
-        }
-        if (!album.tracks && album.image !== undefined && setAlbums !== undefined) {
-            const trackResponse = await getAlbumTracks(album.id, album.image);
-
-            album.tracks = trackResponse
-            setAlbums(albums);
-        }
-
-        setSelected(index);
-    }
 
     if (albumQuery.isLoading) {
         return (
@@ -73,26 +55,7 @@ function AlbumSideBar() {
     return (
             <ul className='sidebar__content outer'>
                 {albumQuery.data?.map((album:Album, index: number) =>
-                    <li className='sidebar__item' key={index}>
-                        <button
-                            className='sidebar__button album__button'
-                            aria-label='Expand Album'
-                            onClick={() => accordionToggle(index)}
-                            data-toggled={index===selected}
-                        >
-                            <img className='sidebar__image' src={album.image} alt={album.title}/>
-                            <div className='sidebar__info'>
-                                <h2>
-                                    {album.title}
-                                </h2>
-                                <h3>
-                                    {album.artist}
-                                </h3>
-                            </div>
-                        </button>
-                        {/*This is the toggle information*/}
-                        {!album.tracks ? null : <AlbumUnfoldComponent queueId={album.queueId} tracks={album.tracks} albumIndex={index} selectedIndex={selected}/>}
-                    </li>
+                    <AlbumTile album={album} index={index} selected={selected} setSelected={setSelected} />
                 )}
             </ul>
     )
