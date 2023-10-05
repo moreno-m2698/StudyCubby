@@ -4,7 +4,7 @@ import { getTrackAudio } from "./ApiCalls";
 
 const backendEndpoint = process.env.VITE_ALBUM_ENDPOINT;
 
-export async function getAlbumImage(albumId: number) {
+async function getAlbumImage(albumId: number): Promise<string> {
     try {
       const imageResponse = await axios.get(`${backendEndpoint}/image/${albumId}`, { responseType: "blob" });
       let imageBlob = new Blob([imageResponse.data], { type: "image/png" });
@@ -12,6 +12,7 @@ export async function getAlbumImage(albumId: number) {
       return imageURL;
     } catch (error) {
       console.log(error);
+      throw(error)
     }
   };
   
@@ -30,6 +31,7 @@ export async function getAlbumTracks(albumId: number, trackImage: string) {
 
     } catch (error) {
         console.error(`There was an error accessing the album - ${albumId} tracks`, error)
+        throw(error)
     }
 }
 
@@ -51,6 +53,7 @@ export async function getAlbums() {
     } catch (error) {
 
         console.log(error);
-        return [];
+        throw(error)
+     
     }
 }

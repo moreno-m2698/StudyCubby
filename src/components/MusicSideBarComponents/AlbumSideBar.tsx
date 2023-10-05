@@ -14,7 +14,7 @@ function AlbumSideBar() {
     const albumQuery = useQuery({
         queryKey: ["albums"],
         queryFn: () => albumResponseHandler()
-      })
+    })
 
 
     async function albumResponseHandler() {

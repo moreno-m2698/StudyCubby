@@ -3,6 +3,7 @@ import { AppContext } from "../AppContextComponent.tsx"
 import { Album } from '../../types'
 import { getAlbumTracks } from "../../API/AlbumAPICalls"
 import AlbumUnfoldComponent from "./AlbumUnfoldComponent.tsx";
+import { useQuery } from "@tanstack/react-query";
 
 
 interface AlbumTileProps {
@@ -15,6 +16,19 @@ interface AlbumTileProps {
 function AlbumTile(props:AlbumTileProps) {
 
     const {albums, setAlbums} = useContext(AppContext)
+
+    const albumTrackQuery = useQuery({
+        queryKey: [`albumTracks${props.album.id}`],
+        queryFn: () => albumTrackResponseHandler()
+    })
+
+    async function albumTrackResponseHandler() {
+        try {
+            const response = await getAlbumTracks(props.album.id, props.album.image)
+          } catch (err) {
+            console.log("There was an error in getting track response: ", err)
+          }
+    }
 
     const accordionToggle = async (index: number) => {
 
