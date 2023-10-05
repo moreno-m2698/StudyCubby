@@ -3,7 +3,7 @@ import { AppContext } from "../AppContextComponent.tsx"
 import MusicTile from "./MusicTile"
 import { Track } from "../../types.ts"
 import { getTracks } from '../../API/ApiCalls';
-import { useQuery, useMutation } from "@tanstack/react-query"
+import { useQuery } from "@tanstack/react-query"
 
 
 function MusicSideBar() {
