@@ -45,10 +45,7 @@ export async function getAlbums() {
             album.image = await getAlbumImage(album.id);
             album.queueId = 'a'+`${album.id}`
 
-        }
-    
-
-        
+        }  
         return albumResponse.data;
         }
     } catch (error) {

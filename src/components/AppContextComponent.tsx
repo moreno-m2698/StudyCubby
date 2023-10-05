@@ -28,33 +28,11 @@ function AppContextComponent() {
   const [tracks, setTracks] = useState<Track[]>([]);
   const [albums, setAlbums] = useState<Album[]>([]);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
-  const [errorState, setErrorState] = useState(false);
   const [playerTracks, setPlayerTracks] = useState<PlayerTracks>({id: 'none', tracks: []});
-
-  const getButton = (content: string) => { 
-    return (
-      <>
-        <button
-            className='blue-btn'
-            onClick={() => getTracks()}
-        >{content}</button>
-      </>
-      )
-    }
-
-    if (errorState) {
-      return (
-        <div className='vert-flex'>
-          <h1>Could not get songs</h1>
-          {getButton('Try Again')}
-        </div>
-
-      )
-    }
 
   return (
     <>
-      <AppContext.Provider value = {{tracks, albums, currentTrackIndex, playerTracks, setCurrentTrackIndex, setTracks, setErrorState, setAlbums, setPlayerTracks }}>
+      <AppContext.Provider value = {{tracks, albums, currentTrackIndex, playerTracks, setCurrentTrackIndex, setTracks, setAlbums, setPlayerTracks }}>
         <section aria-label={'Music Player'} className = "app__body">
           <div className='visualizer'>
             <Visualizer />

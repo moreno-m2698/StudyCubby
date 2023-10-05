@@ -76,7 +76,6 @@ export async function getTracks() {
       const singleResponse = await getSingle();
       const all_tracks = [...trackResponse.data, ...singleResponse]
       const result: getTracksResponse = {
-        errorState: false,
         isEmpty: (all_tracks.length === 0),
         tracks: all_tracks
       }

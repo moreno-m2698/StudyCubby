@@ -8,27 +8,25 @@ import { useQuery, useMutation } from "@tanstack/react-query"
 
 function MusicSideBar() {
 
-  const {tracks, setTracks, setErrorState, setPlayerTracks} = useContext(AppContext)
+  const {tracks, setTracks, setPlayerTracks} = useContext(AppContext)
 
   const trackQuery = useQuery({
     queryKey: ["tracks"],
-    queryFn: trackResponseHandler()
+    queryFn: () => trackResponseHandler()
   })
 
   async function trackResponseHandler() {
     try {
-      if (setTracks !== undefined && setErrorState !== undefined && setPlayerTracks !== undefined) {
+      if (setTracks !== undefined && setPlayerTracks !== undefined) {
         const response = await getTracks();
         if (response !== undefined) {
           const tracks = response.tracks
-          const errorState = response.errorState
           const trackQueue = {
             id: "tracks",
             tracks: tracks
           }
           setPlayerTracks(trackQueue)
           setTracks(tracks)
-          setErrorState(errorState)
         }
       }
     } catch (err) {
@@ -61,10 +59,10 @@ function MusicSideBar() {
         <li>"...Loading"</li>
       </ul>
     )
-  // if (trackQuery.isError) 
-  //   return (
-  //     <pre>{JSON.stringify(trackQuery.error)}</pre>
-  //   ) 
+  if (trackQuery.isError) 
+    return (
+      <pre>{JSON.stringify(trackQuery.error)}</pre>
+    ) 
   return (
       <ul className="sidebar__content outer">
         {tracks.map((track:Track, index) => <MusicTile track={track} key={index} trackIndex={index}/>)}
