@@ -1,4 +1,4 @@
-import { useContext, useEffect, useState } from "react"
+import { useContext, useState } from "react"
 import { AppContext } from "../AppContextComponent.tsx"
 import {Album} from "../../types.ts"
 import { getAlbums, getAlbumTracks } from '../../API/AlbumAPICalls.tsx';
@@ -41,6 +41,8 @@ function AlbumSideBar() {
     // }
     // ,[])
 
+    
+
     const accordionToggle = async (index: number) => {
 
         const album = albums[index]
@@ -57,6 +59,14 @@ function AlbumSideBar() {
         }
 
         setSelected(index);
+    }
+
+    if (albumQuery.isLoading) {
+        return (
+            <ul className='sidebar__content outer'>
+                <p>Loading...</p>
+            </ul>
+        )
     }
 
 

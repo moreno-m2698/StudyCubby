@@ -3,7 +3,6 @@ import { Track } from "../types";
 import { getAlbumImage } from "./AlbumAPICalls";
 
 interface getTracksResponse {
-  errorState: boolean
   isEmpty: boolean
   tracks: Track[]
 }
@@ -54,7 +53,7 @@ async function getSingle() {
       const single = singleResponse.data[i]
       single.image = await getSingleImage(single.id)
       single.audio = await getSingleAudio(single.id)
-
+    
     }
 
     return singleResponse.data}
