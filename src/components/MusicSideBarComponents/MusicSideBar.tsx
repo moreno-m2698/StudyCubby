@@ -1,4 +1,4 @@
-import { useContext, useEffect } from "react"
+import { useContext } from "react"
 import { AppContext } from "../AppContextComponent.tsx"
 import MusicTile from "./MusicTile"
 import { Track } from "../../types.ts"
@@ -8,7 +8,7 @@ import { useQuery, useMutation } from "@tanstack/react-query"
 
 function MusicSideBar() {
 
-  const {tracks, setTracks, setPlayerTracks} = useContext(AppContext)
+  const {setPlayerTracks} = useContext(AppContext)
 
   const trackQuery = useQuery({
     queryKey: ["tracks"],
@@ -17,41 +17,20 @@ function MusicSideBar() {
 
   async function trackResponseHandler() {
     try {
-      if (setTracks !== undefined && setPlayerTracks !== undefined) {
+      if (setPlayerTracks !== undefined) {
         const response = await getTracks();
-        if (response !== undefined) {
-          const tracks = response.tracks
-          const trackQueue = {
-            id: "tracks",
-            tracks: tracks
-          }
-          setPlayerTracks(trackQueue)
-          setTracks(tracks)
+        const tracks = response?.tracks
+        const trackQueue = {
+          id: "tracks",
+          tracks: tracks
         }
+        setPlayerTracks(trackQueue)
+        return trackQueue.tracks
       }
     } catch (err) {
       console.log("There was an error in getting track response: ", err)
     }
   }
-
-  // useEffect(() => {
-  //   (async() => {
-  //     if (tracks.length === 0 && setTracks !== undefined && setErrorState !== undefined && setPlayerTracks !== undefined) {
-  //       const response = await getTracks();
-  //       if (response !== undefined) {
-  //         const tracks = response.tracks
-  //         const errorState = response.errorState
-  //         const trackQueue = {
-  //           id: "tracks",
-  //           tracks: tracks
-  //         }
-  //         setPlayerTracks(trackQueue)
-  //         setTracks(tracks)
-  //         setErrorState(errorState)
-  //       }
-  //     }
-  //   })();
-  // },[])
 
   if (trackQuery.isLoading) 
     return (
@@ -65,7 +44,7 @@ function MusicSideBar() {
     ) 
   return (
       <ul className="sidebar__content outer">
-        {tracks.map((track:Track, index) => <MusicTile track={track} key={index} trackIndex={index}/>)}
+        {trackQuery.data?.map((track:Track, index) => <MusicTile track={track} key={index} trackIndex={index} trackQuery = {trackQuery.data}/>)}
       </ul>
   )
 }

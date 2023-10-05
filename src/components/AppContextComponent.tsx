@@ -10,29 +10,27 @@ import PlayerSidebar from './MusicSideBarComponents/PlayerSidebar';
 
 
 export interface AppContextValues {
-    tracks: Track[],
     albums: Album[],
     currentTrackIndex: number
     playerTracks: PlayerTracks
     setCurrentTrackIndex?: React.Dispatch<React.SetStateAction<number>>,
-    setTracks?: React.Dispatch<React.SetStateAction<Track[]>>,
     setErrorState?: React.Dispatch<React.SetStateAction<boolean>>,
     setAlbums?: React.Dispatch<React.SetStateAction<Album[]>>,
     setPlayerTracks?: React.Dispatch<React.SetStateAction<PlayerTracks>>
 }
 
-export const AppContext = createContext<AppContextValues>({tracks: [], albums: [], currentTrackIndex: 0, playerTracks: {id: 'none', tracks: []}});
+export const AppContext = createContext<AppContextValues>({albums: [], currentTrackIndex: 0, playerTracks: {id: 'none', tracks: []}});
 
 function AppContextComponent() {
 
-  const [tracks, setTracks] = useState<Track[]>([]);
+  
   const [albums, setAlbums] = useState<Album[]>([]);
   const [currentTrackIndex, setCurrentTrackIndex] = useState(0);
   const [playerTracks, setPlayerTracks] = useState<PlayerTracks>({id: 'none', tracks: []});
 
   return (
     <>
-      <AppContext.Provider value = {{tracks, albums, currentTrackIndex, playerTracks, setCurrentTrackIndex, setTracks, setAlbums, setPlayerTracks }}>
+      <AppContext.Provider value = {{albums, currentTrackIndex, playerTracks, setCurrentTrackIndex, setAlbums, setPlayerTracks }}>
         <section aria-label={'Music Player'} className = "app__body">
           <div className='visualizer'>
             <Visualizer />
