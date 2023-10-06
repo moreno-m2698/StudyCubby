@@ -3,7 +3,7 @@ import { AppContext } from "../AppContextComponent.tsx"
 import { Album } from '../../types'
 import { getAlbumTracks } from "../../API/AlbumAPICalls"
 import AlbumUnfoldComponent from "./AlbumUnfoldComponent.tsx";
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, useMutation } from "@tanstack/react-query";
 
 
 interface AlbumTileProps {
@@ -17,14 +17,20 @@ function AlbumTile(props:AlbumTileProps) {
 
     const {albums, setAlbums} = useContext(AppContext)
 
+    const albumTracks = []
+
+
     const albumTrackQuery = useQuery({
-        queryKey: [`albumTracks${props.album.id}`],
+        queryKey: [`album`, 'tracks', props.album.id],
         queryFn: () => albumTrackResponseHandler()
     })
 
     async function albumTrackResponseHandler() {
         try {
-            const response = await getAlbumTracks(props.album.id, props.album.image)
+            const response = await getAlbumTracks(props.album.id, props.album.image!)
+            props.album.tracks = response
+
+            return response
           } catch (err) {
             console.log("There was an error in getting track response: ", err)
           }
@@ -39,7 +45,7 @@ function AlbumTile(props:AlbumTileProps) {
             return props.setSelected(null)
         }
         if (!album.tracks && album.image !== undefined && setAlbums !== undefined) {
-            const trackResponse = await getAlbumTracks(album.id, album.image);
+            const trackResponse = await getAlbumTracks(album.id, album.image!);
 
             album.tracks = trackResponse
             setAlbums(albums);
@@ -67,7 +73,7 @@ function AlbumTile(props:AlbumTileProps) {
             </div>
         </button>
         {/*This is the toggle information*/}
-        {!props.album.tracks ? null : <AlbumUnfoldComponent queueId={props.album.queueId} tracks={props.album.tracks} albumIndex={props.index} selectedIndex={props.selected}/>}
+        {/*albumTrackQuery.data ? null : <AlbumUnfoldComponent queueId={props.album.queueId} tracks={albumTrackQuery.data} albumIndex={props.index} selectedIndex={props.selected}/>*/}
     </li>
   )
 }

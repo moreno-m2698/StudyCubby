@@ -11,7 +11,7 @@ function MusicSideBar() {
   const {setPlayerTracks} = useContext(AppContext)
 
   const trackQuery = useQuery({
-    queryKey: ["tracks"],
+    queryKey: ["track"],
     queryFn: () => trackResponseHandler()
   })
 

@@ -4,7 +4,7 @@ import { getTrackAudio } from "./ApiCalls";
 
 const backendEndpoint = process.env.VITE_ALBUM_ENDPOINT;
 
-async function getAlbumImage(albumId: number): Promise<string> {
+export async function getAlbumImage(albumId: number): Promise<string> {
     try {
       const imageResponse = await axios.get(`${backendEndpoint}/image/${albumId}`, { responseType: "blob" });
       let imageBlob = new Blob([imageResponse.data], { type: "image/png" });
@@ -46,6 +46,7 @@ export async function getAlbums() {
             
             album.image = await getAlbumImage(album.id);
             album.queueId = 'a'+`${album.id}`
+            album.tracks = []
 
         }  
         return albumResponse.data;
