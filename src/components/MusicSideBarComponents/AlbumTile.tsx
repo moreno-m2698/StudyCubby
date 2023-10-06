@@ -8,7 +8,6 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 
 interface AlbumTileProps {
     album: Album,
-    index: number,
     selected: number | null,
     setSelected: React.Dispatch<React.SetStateAction<number | null>>
 }
@@ -17,19 +16,16 @@ function AlbumTile(props:AlbumTileProps) {
 
     const {albums, setAlbums} = useContext(AppContext)
 
-    const albumTracks = []
-
-
     const albumTrackQuery = useQuery({
         queryKey: [`album`, 'tracks', props.album.id],
-        queryFn: () => albumTrackResponseHandler()
+        queryFn: () => albumTrackResponseHandler(props.album.id)
     })
 
-    async function albumTrackResponseHandler() {
+    async function albumTrackResponseHandler(albumID:number) {
         try {
-            const response = await getAlbumTracks(props.album.id, props.album.image!)
+            const response = await getAlbumTracks(albumID, props.album.image!)
             props.album.tracks = response
-
+            console.log('Here is albumTrackResponse', response)
             return response
           } catch (err) {
             console.log("There was an error in getting track response: ", err)
@@ -41,26 +37,25 @@ function AlbumTile(props:AlbumTileProps) {
         const album = albums[index]
 
 
-        if (props.selected === props.index) {
+        if (props.selected === props.album.id) {
             return props.setSelected(null)
         }
-        if (!album.tracks && album.image !== undefined && setAlbums !== undefined) {
+        if (!album.tracks && setAlbums !== undefined) {
             const trackResponse = await getAlbumTracks(album.id, album.image!);
 
             album.tracks = trackResponse
-            setAlbums(albums);
         }
 
         props.setSelected(index);
     }
 
     return (
-    <li className='sidebar__item' key={props.index}>
+    <li className='sidebar__item' key={props.album.id}>
         <button
             className='sidebar__button album__button'
             aria-label='Expand Album'
-            onClick={() => accordionToggle(props.index)}
-            data-toggled={props.index===props.selected}
+            onClick={() => accordionToggle(props.album.id)}
+            data-toggled={props.album.id===props.selected}
         >
             <img className='sidebar__image' src={props.album.image} alt={props.album.title}/>
             <div className='sidebar__info'>
@@ -73,6 +68,7 @@ function AlbumTile(props:AlbumTileProps) {
             </div>
         </button>
         {/*This is the toggle information*/}
+
         {/*albumTrackQuery.data ? null : <AlbumUnfoldComponent queueId={props.album.queueId} tracks={albumTrackQuery.data} albumIndex={props.index} selectedIndex={props.selected}/>*/}
     </li>
   )

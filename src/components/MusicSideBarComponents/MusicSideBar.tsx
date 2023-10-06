@@ -32,19 +32,19 @@ function MusicSideBar() {
     }
   }
 
-  if (trackQuery.isLoading) 
-    return (
-      <ul className="sidebar__content outer">
-        <li>"...Loading"</li>
-      </ul>
-    )
+ 
   if (trackQuery.isError) 
     return (
       <pre>{JSON.stringify(trackQuery.error)}</pre>
     ) 
   return (
       <ul className="sidebar__content outer">
-        {trackQuery.data?.map((track:Track, index) => <MusicTile track={track} key={index} trackIndex={index} trackQuery = {trackQuery.data}/>)}
+        {trackQuery.isLoading ? 
+          <li>...Loading</li>
+        : trackQuery.isError ? 
+          <li>Error Loading Tracks </li>
+        : trackQuery.data?.map((track:Track, index) => <MusicTile track={track} key={index} trackIndex={index} trackQuery = {trackQuery.data}/>) }
+
       </ul>
   )
 }
