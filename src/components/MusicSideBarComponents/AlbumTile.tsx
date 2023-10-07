@@ -4,7 +4,7 @@ import { Album, Track } from '../../types'
 import { getAlbumTracks } from "../../API/AlbumAPICalls"
 
 import AlbumTrackTile from "./AlbumTrackTile.tsx";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 
 
 interface AlbumTileProps {
@@ -15,17 +15,32 @@ interface AlbumTileProps {
 
 function AlbumTile(props:AlbumTileProps) {
 
+    const queryClient = useQueryClient()
     const { setCurrentTrackIndex, playerTracks, setPlayerTracks} = useContext(AppContext);
 
     const albumTrackQuery = useQuery({
         queryKey: [`album`, 'tracks', props.album.id],
-        queryFn: () => albumTrackResponseHandler(props.album.id)
+        queryFn: () => {console.log(`Here are the tracks for ${props.album.title}: `, props.album.tracks) 
+                        return props.album.tracks}
     })
 
-    async function albumTrackResponseHandler(albumID:number) {
+    const albumTrackMutation  = useMutation({
+        mutationFn: async (album:Album) => {
+            console.log("In the mutation")
+            const tracks = await getAlbumTracks(album.id, album.image!)
+            for (let i = 0; i < tracks.length ; i++) {
+                album.tracks!.push(tracks[i])
+                console.log(tracks[i].title)
+            }
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries([`album`, 'tracks', props.album.id])
+        }
+    })
+
+    async function albumTrackResponse(album: Album) {
         try {
-            const response = await getAlbumTracks(albumID, props.album.image!)
-            props.album.tracks = response
+            const response = await getAlbumTracks(album.id, album.image!)
             console.log('Here is albumTrackResponse', response)
             return response
           } catch (err) {
@@ -34,22 +49,21 @@ function AlbumTile(props:AlbumTileProps) {
     }
 
 
-    async function albumButtonCallback(albumId: number) {
+    async function albumButtonCallback(album: Album) {
 
-        if (props.selectedAlbum === albumId) {
+        if (props.selectedAlbum === album.id) {
             //Closes album if album is already open
             return props.setSelectedAlbum(null)
-        }
-        // if (!album.tracks && setAlbums !== undefined) {
-        //     const trackResponse = await getAlbumTracks(album.id, album.image!);
+        }   
+        console.log(album.tracks?.length)
 
-        //     album.tracks = trackResponse
-        // }
-        props.setSelectedAlbum(albumId)
+        if (album.tracks!.length === 0) {
+            albumTrackMutation.mutate(album)
+        }
+
+        props.setSelectedAlbum(album.id)
 
     }
-
-    //Turn click into a mutation so we are not calling all tracks when the component is mounted.
 
     function albumTrackCallback(trackIndex: number) {
         if (playerTracks.id !== props.album.queueId) {
@@ -67,7 +81,7 @@ function AlbumTile(props:AlbumTileProps) {
         <button
             className='sidebar__button album__button'
             aria-label='Expand Album'
-            onClick={() => albumButtonCallback(props.album.id)}
+            onClick={() => albumButtonCallback(props.album)}
             data-toggled={props.album.id===props.selectedAlbum}
         >
             <img className='sidebar__image' src={props.album.image} alt={props.album.title}/>
@@ -86,7 +100,7 @@ function AlbumTile(props:AlbumTileProps) {
             <li>...Loading</li> 
             : albumTrackQuery.isError ?
             <li>Error Loading Tracks</li> 
-            : albumTrackQuery.data.map((track: Track) => <AlbumTrackTile album={props.album} albumTrackCallback={albumTrackCallback} track={track} key={track.index}/>)}
+            : albumTrackQuery.data!.map((track: Track) => <AlbumTrackTile album={props.album} albumTrackCallback={albumTrackCallback} track={track} key={track.index}/>)}
         </ol>
     </li>
   )

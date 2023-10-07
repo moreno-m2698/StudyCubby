@@ -32,14 +32,14 @@ function AlbumSideBar() {
 
 
     return (
-            <ul className='sidebar__content outer'>
-                {albumQuery.isLoading ? 
-                <p>Loading...</p>
-                : albumQuery.isError ?
-                <p>Error Loading Albums</p>
-                : albumQuery.data?.map((album:Album) => <AlbumTile album={album} key={album.id} selectedAlbum={selectedAlbum} setSelectedAlbum={setSelectedAlbum} />
-                )}
-            </ul>
+        <ul className='sidebar__content outer'>
+            {albumQuery.isLoading ? 
+            <p>Loading...</p>
+            : albumQuery.isError ?
+            <p>Error Loading Albums</p>
+            : albumQuery.data?.map((album:Album) => <AlbumTile album={album} key={album.id} selectedAlbum={selectedAlbum} setSelectedAlbum={setSelectedAlbum} />
+            )}
+        </ul>
     )
 }
 

@@ -23,7 +23,11 @@ function Upload() {
       <input type="radio" name="upload-selector" value="Tracks" checked={isRadioSelected('Tracks')} onChange={handleRadioClick} />
       <label htmlFor="Tracks">Add tracks to album/single</label><br></br>
     </div>
-    {isRadioSelected('Album') ? <AlbumMaker/>: (isRadioSelected('Single') ? <SingleMaker />: <Tracks/> ) }
+    {isRadioSelected('Album') ? 
+      <AlbumMaker/>
+    : (isRadioSelected('Single') ? 
+      <SingleMaker />
+    : <Tracks/> ) }
   </div>
   );
 };
