@@ -51,7 +51,7 @@ function Tracks() {
     const [albumID, setAlbumID] = useState<string|null>() 
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const handleSubmit = async (event:any) =>{
+    const handleSubmit = async () =>{
 
         setIsLoading(true)
         if (!filePreview||!albumID) return

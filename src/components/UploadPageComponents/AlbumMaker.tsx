@@ -11,7 +11,7 @@ function AlbumMaker() {
     const [isLoading, setIsLoading] = useState<boolean>(false)
     const [artist, setArtist] = useState<string>('')
 
-    const handleUpload = async (event: any) => {
+    const handleUpload = async () => {
         setIsLoading(true)
         if (!imageFile) return    
           const formData = new FormData();

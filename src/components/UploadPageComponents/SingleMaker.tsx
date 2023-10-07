@@ -11,7 +11,7 @@ function SingleMaker() {
     const [artist, setArtist] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
-    const handleUpload = async (event: any) => {
+    const handleUpload = async () => {
         setIsLoading(true)
         if (!imageFile || !trackFile) return    
           const imageFormData = new FormData();
