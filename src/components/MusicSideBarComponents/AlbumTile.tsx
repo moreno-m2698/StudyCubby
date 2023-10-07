@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import { AppContext } from "../AppContextComponent.tsx"
-import { Album } from '../../types'
+import { Album, Track } from '../../types'
 import { getAlbumTracks } from "../../API/AlbumAPICalls"
 import AlbumUnfoldComponent from "./AlbumUnfoldComponent.tsx";
 import { useQuery, useMutation } from "@tanstack/react-query";
@@ -8,13 +8,14 @@ import { useQuery, useMutation } from "@tanstack/react-query";
 
 interface AlbumTileProps {
     album: Album,
-    selected: number | null,
-    setSelected: React.Dispatch<React.SetStateAction<number | null>>
+    selectedAlbum: number | null,
+    setSelectedAlbum: React.Dispatch<React.SetStateAction<number | null>>
 }
 
 function AlbumTile(props:AlbumTileProps) {
 
     const {albums, setAlbums} = useContext(AppContext)
+    const {currentTrackIndex, setCurrentTrackIndex, playerTracks, setPlayerTracks} = useContext(AppContext);
 
     const albumTrackQuery = useQuery({
         queryKey: [`album`, 'tracks', props.album.id],
@@ -32,21 +33,37 @@ function AlbumTile(props:AlbumTileProps) {
           }
     }
 
-    const accordionToggle = async (index: number) => {
 
-        const album = albums[index]
+    async function albumButtonCallback(albumId: number) {
 
-
-        if (props.selected === props.album.id) {
-            return props.setSelected(null)
+        if (props.selectedAlbum === albumId) {
+            //Closes album if album is already open
+            return props.setSelectedAlbum(null)
         }
-        if (!album.tracks && setAlbums !== undefined) {
-            const trackResponse = await getAlbumTracks(album.id, album.image!);
+        // if (!album.tracks && setAlbums !== undefined) {
+        //     const trackResponse = await getAlbumTracks(album.id, album.image!);
 
-            album.tracks = trackResponse
+        //     album.tracks = trackResponse
+        // }
+        props.setSelectedAlbum(albumId)
+
+    }
+
+    const trackSelect = (index:number) => {
+        if (playerTracks.id !== props.album.queueId) {
+          const albumQueue = {
+            id: props.queueId,
+            tracks: props.tracks
+          }
+    
+          if (setPlayerTracks !== undefined) {
+            setPlayerTracks(albumQueue)
+          }
         }
-
-        props.setSelected(index);
+    
+        if (setCurrentTrackIndex !== undefined) {
+          setCurrentTrackIndex(index);
+        }
     }
 
     return (
@@ -54,8 +71,8 @@ function AlbumTile(props:AlbumTileProps) {
         <button
             className='sidebar__button album__button'
             aria-label='Expand Album'
-            onClick={() => accordionToggle(props.album.id)}
-            data-toggled={props.album.id===props.selected}
+            onClick={() => albumButtonCallback(props.album.id)}
+            data-toggled={props.album.id===props.selectedAlbum}
         >
             <img className='sidebar__image' src={props.album.image} alt={props.album.title}/>
             <div className='sidebar__info'>
@@ -68,7 +85,13 @@ function AlbumTile(props:AlbumTileProps) {
             </div>
         </button>
         {/*This is the toggle information*/}
-
+        <ol className={props.selectedAlbum === props.album.id ? 'sidebar__content accordion--show' : 'sidebar__content accordion'} aria-label='Album Tracks'>
+            {albumTrackQuery.isLoading ? 
+            <li>...Loading</li> 
+            : albumTrackQuery.isError ?
+            <li>Error Loading Tracks</li> 
+            : albumTrackQuery.data.map((track: Track) => <li>{track.title}</li>)}
+        </ol>
         {/*albumTrackQuery.data ? null : <AlbumUnfoldComponent queueId={props.album.queueId} tracks={albumTrackQuery.data} albumIndex={props.index} selectedIndex={props.selected}/>*/}
     </li>
   )

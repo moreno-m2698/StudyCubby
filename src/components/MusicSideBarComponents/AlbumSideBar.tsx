@@ -9,7 +9,7 @@ import AlbumTile from "./AlbumTile.tsx";
 function AlbumSideBar() {
 
     const {setAlbums} = useContext(AppContext)
-    const [selected, setSelected] = useState<number|null>(null);
+    const [selectedAlbum, setSelectedAlbum] = useState<number|null>(null);
 
     const albumQuery = useQuery({
         queryKey: ["album"],
@@ -37,7 +37,7 @@ function AlbumSideBar() {
                 <p>Loading...</p>
                 : albumQuery.isError ?
                 <p>Error Loading Albums</p>
-                : albumQuery.data?.map((album:Album) => <AlbumTile album={album} key={album.id} selected={selected} setSelected={setSelected} />
+                : albumQuery.data?.map((album:Album) => <AlbumTile album={album} key={album.id} selectedAlbum={selectedAlbum} setSelectedAlbum={setSelectedAlbum} />
                 )}
             </ul>
     )
