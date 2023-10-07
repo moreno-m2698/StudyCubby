@@ -49,22 +49,35 @@ function AlbumTile(props:AlbumTileProps) {
 
     }
 
-    const trackSelect = (index:number) => {
+    //Turn click into a mutation so we are not calling all tracks when the component is mounted.
+
+    function albumTrackCallback(trackIndex: number) {
         if (playerTracks.id !== props.album.queueId) {
-          const albumQueue = {
-            id: props.queueId,
-            tracks: props.tracks
-          }
-    
-          if (setPlayerTracks !== undefined) {
-            setPlayerTracks(albumQueue)
-          }
+            const albumTracks = {
+                id: props.album.queueId,
+                tracks: albumTrackQuery.data
+            }
+            setPlayerTracks!(albumTracks)
         }
+        setCurrentTrackIndex!(trackIndex)
+    } 
+
+    // const trackSelect = (index:number) => {
+    //     if (playerTracks.id !== props.album.queueId) {
+    //       const albumQueue = {
+    //         id: props.queueId,
+    //         tracks: props.tracks
+    //       }
     
-        if (setCurrentTrackIndex !== undefined) {
-          setCurrentTrackIndex(index);
-        }
-    }
+    //       if (setPlayerTracks !== undefined) {
+    //         setPlayerTracks(albumQueue)
+    //       }
+    //     }
+    
+    //     if (setCurrentTrackIndex !== undefined) {
+    //       setCurrentTrackIndex(index);
+    //     }
+    // }
 
     return (
     <li className='sidebar__item' key={props.album.id}>
@@ -90,7 +103,7 @@ function AlbumTile(props:AlbumTileProps) {
             <li>...Loading</li> 
             : albumTrackQuery.isError ?
             <li>Error Loading Tracks</li> 
-            : albumTrackQuery.data.map((track: Track) => <li>{track.title}</li>)}
+            : albumTrackQuery.data.map((track: Track) => <><li>{track.title}</li><li>{props.album.queueId}</li><li>{props.album.id}</li></>)}
         </ol>
         {/*albumTrackQuery.data ? null : <AlbumUnfoldComponent queueId={props.album.queueId} tracks={albumTrackQuery.data} albumIndex={props.index} selectedIndex={props.selected}/>*/}
     </li>

@@ -13,7 +13,7 @@ interface AlbumTrackTileProps {
 
 function AlbumTrackTile(props:AlbumTrackTileProps) {
 
-    const {currentTrackIndex, setCurrentTrackIndex, playerTracks, setPlayerTracks} = useContext(AppContext);
+  const {currentTrackIndex, setCurrentTrackIndex, playerTracks, setPlayerTracks} = useContext(AppContext);
 
   return (
     <li className='sidebar__item'>
