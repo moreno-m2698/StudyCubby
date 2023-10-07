@@ -2,7 +2,8 @@ import { useContext } from "react"
 import { AppContext } from "../AppContextComponent.tsx"
 import { Album, Track } from '../../types'
 import { getAlbumTracks } from "../../API/AlbumAPICalls"
-import AlbumUnfoldComponent from "./AlbumUnfoldComponent.tsx";
+
+import AlbumTrackTile from "./AlbumTrackTile.tsx";
 import { useQuery, useMutation } from "@tanstack/react-query";
 
 
@@ -14,8 +15,7 @@ interface AlbumTileProps {
 
 function AlbumTile(props:AlbumTileProps) {
 
-    const {albums, setAlbums} = useContext(AppContext)
-    const {currentTrackIndex, setCurrentTrackIndex, playerTracks, setPlayerTracks} = useContext(AppContext);
+    const { setCurrentTrackIndex, playerTracks, setPlayerTracks} = useContext(AppContext);
 
     const albumTrackQuery = useQuery({
         queryKey: [`album`, 'tracks', props.album.id],
@@ -62,23 +62,6 @@ function AlbumTile(props:AlbumTileProps) {
         setCurrentTrackIndex!(trackIndex)
     } 
 
-    // const trackSelect = (index:number) => {
-    //     if (playerTracks.id !== props.album.queueId) {
-    //       const albumQueue = {
-    //         id: props.queueId,
-    //         tracks: props.tracks
-    //       }
-    
-    //       if (setPlayerTracks !== undefined) {
-    //         setPlayerTracks(albumQueue)
-    //       }
-    //     }
-    
-    //     if (setCurrentTrackIndex !== undefined) {
-    //       setCurrentTrackIndex(index);
-    //     }
-    // }
-
     return (
     <li className='sidebar__item' key={props.album.id}>
         <button
@@ -103,9 +86,8 @@ function AlbumTile(props:AlbumTileProps) {
             <li>...Loading</li> 
             : albumTrackQuery.isError ?
             <li>Error Loading Tracks</li> 
-            : albumTrackQuery.data.map((track: Track) => <><li>{track.title}</li><li>{props.album.queueId}</li><li>{props.album.id}</li></>)}
+            : albumTrackQuery.data.map((track: Track) => <AlbumTrackTile album={props.album} albumTrackCallback={albumTrackCallback} track={track} key={track.index}/>)}
         </ol>
-        {/*albumTrackQuery.data ? null : <AlbumUnfoldComponent queueId={props.album.queueId} tracks={albumTrackQuery.data} albumIndex={props.index} selectedIndex={props.selected}/>*/}
     </li>
   )
 }
