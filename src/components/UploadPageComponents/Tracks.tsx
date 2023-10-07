@@ -49,9 +49,11 @@ function Tracks() {
     const [files, setFiles] = useState<File[]>([])
     const [filePreview, setFilePreview] = useState<fileData[]>([])
     const [albumID, setAlbumID] = useState<string|null>() 
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleSubmit = async (event:any) =>{
-        event.preventDefault();
+
+        setIsLoading(true)
         if (!filePreview||!albumID) return
           console.log(filePreview)
           const newFileOrder = filePreview.map((preview) => {
@@ -79,8 +81,11 @@ function Tracks() {
           try {
             const result = await axios.post(url, formData)
             console.log(result);
-            } catch (error) {
-            console.error(error);}
+            setIsLoading(false)
+          } catch (error) {
+            console.error(error);
+            setIsLoading(false)
+          }
 
       setFilePreview([])
       setFiles([])
@@ -109,7 +114,7 @@ function Tracks() {
             <h3 className='upload__header'>Preview</h3>
             <form encType='multipart/form-data' onSubmit={handleSubmit}>
                 <input type='text' placeholder='album ID' onChange={(event: React.ChangeEvent<HTMLInputElement>) => setAlbumID(event.target.value)}/>
-                <Preview fileData = {filePreview} setFileData={setFilePreview}/>
+                <Preview fileData = {filePreview} setFileData={setFilePreview} isLoading={isLoading} setIsLoading={setIsLoading}/>
                 <input type='submit' />
             </form>
         </div>

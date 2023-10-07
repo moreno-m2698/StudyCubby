@@ -7,7 +7,9 @@ interface DraggablePreviewProps {
   setInputName: any,
   handleDragStart: any,
   handleDragOver: any,
-  handleDrop: any
+  handleDrop: any,
+  isLoading: boolean
+  setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 
@@ -16,13 +18,13 @@ const DraggablePreview = (props:DraggablePreviewProps) => {
   return (
 
       <li className="preview__input"
-      draggable="true"
+      draggable={!props.isLoading}
       onDragStart={(e) => props.handleDragStart(e, props.id)}
       onDragOver={(e) => props.handleDragOver(e)}
       onDrop={(e) => props.handleDrop(e, props.id)}>
         <input
           type="text"
-         
+          disabled={props.isLoading}
           defaultValue={props.text}
           onChange={(e) => props.setInputName(e.target.value)}
           placeholder="Track Title"

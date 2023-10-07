@@ -9,9 +9,10 @@ function SingleMaker() {
     const [trackFile, setTrackFile] = useState<File|null>(null);
     const [title, setTitle] = useState<string>('');
     const [artist, setArtist] = useState<string>('');
+    const [isLoading, setIsLoading] = useState<boolean>(false);
 
     const handleUpload = async (event: any) => {
-        event.preventDefault();
+        setIsLoading(true)
         if (!imageFile || !trackFile) return    
           const imageFormData = new FormData();
           const audioFormData = new FormData();
@@ -34,9 +35,11 @@ function SingleMaker() {
           const imageResult: any = await axios.patch(imageUrl, imageFormData);
           console.log("audio", audioResult);
           console.log("image", imageResult);
+          setIsLoading(false)
           } catch (error) {
 
             console.log("Something went wrong", error )
+            setIsLoading(false)
 
           };
 
@@ -61,14 +64,14 @@ function SingleMaker() {
         </h3>
         <form encType='multipart/form-data' onSubmit={handleUpload}>
             <label htmlFor="cover-file">Cover Upload</label>
-            <input type='file' id='cover-file' accept='image/*' name='cover' onChange={(event: any) => coverFileInputChange(event)}/>
+            <input disabled= {isLoading} type='file' id='cover-file' accept='image/*' name='cover' onChange={(event: any) => coverFileInputChange(event)}/>
             <br/>
             <label htmlFor="track-file">Track Upload</label>
-            <input type='file' id='track-file' accept='audio/*' name='track' onChange={(event: any) => trackFileInputChange(event)}/>
+            <input type='file' disabled= {isLoading} id='track-file' accept='audio/*' name='track' onChange={(event: any) => trackFileInputChange(event)}/>
             <br/>
-            <input type='text' placeholder='Title' onChange={(event: React.ChangeEvent<HTMLInputElement>) => setTitle(event.target.value)}/>
-            <input type='text' placeholder='Artist' onChange={(event: React.ChangeEvent<HTMLInputElement>) => setArtist(event.target.value)}/>
-            <input type='submit' />
+            <input type='text'disabled= {isLoading} placeholder='Title' onChange={(event: React.ChangeEvent<HTMLInputElement>) => setTitle(event.target.value)}/>
+            <input type='text'disabled= {isLoading} placeholder='Artist' onChange={(event: React.ChangeEvent<HTMLInputElement>) => setArtist(event.target.value)}/>
+            <input type='submit'  />
         </form>
     </>
   )

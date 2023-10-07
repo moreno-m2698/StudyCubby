@@ -4,6 +4,8 @@ import DraggablePreview from './DraggablePreview'
 interface PreviewProps  {
     fileData: any
     setFileData: any
+    isLoading: boolean
+    setIsLoading: React.Dispatch<React.SetStateAction<boolean>>
 
 }
 
@@ -53,6 +55,8 @@ function Preview(props:PreviewProps) {
             handleDragStart={handleDragStart}
             handleDragOver={handleDragOver}
             handleDrop={handleDrop}
+            isLoading={props.isLoading}
+            setIsLoading={props.setIsLoading}
           />
         ))}
     </ul>

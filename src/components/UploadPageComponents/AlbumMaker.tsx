@@ -8,10 +8,11 @@ function AlbumMaker() {
 
     const [imageFile, setImageFile] = useState<File|null>(null)
     const [title, setTitle] = useState<string>('')
+    const [isLoading, setIsLoading] = useState<boolean>(false)
     const [artist, setArtist] = useState<string>('')
 
     const handleUpload = async (event: any) => {
-        event.preventDefault();
+        setIsLoading(true)
         if (!imageFile) return    
           const formData = new FormData();
           formData.append('cover', imageFile)
@@ -23,8 +24,11 @@ function AlbumMaker() {
           try {
           const result = await axios.post(url, formData)
           console.log(result);
+          setIsLoading(false)
           } catch (error) {
-          console.error(error);}
+            setIsLoading(false)
+            console.error(error);
+          }
           
     
       };
@@ -44,9 +48,9 @@ function AlbumMaker() {
         </h3>
         <form encType='multipart/form-data' onSubmit={handleUpload}>
             <input type='file' accept='image/*' name='cover' onChange={(event: any) => fileInputChange(event)}/>
-            <input type='text' placeholder='Title' onChange={(event: React.ChangeEvent<HTMLInputElement>) => setTitle(event.target.value)}/>
-            <input type='text' placeholder='Artist' onChange={(event: React.ChangeEvent<HTMLInputElement>) => setArtist(event.target.value)}/>
-            <input type='submit' />
+            <input type='text' placeholder='Title' disabled = {isLoading} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setTitle(event.target.value)}/>
+            <input type='text' placeholder='Artist' disabled = {isLoading} onChange={(event: React.ChangeEvent<HTMLInputElement>) => setArtist(event.target.value)}/>
+            <input type='submit' disabled = {isLoading} />
         </form>
     </>
   )
