@@ -38,17 +38,6 @@ function AlbumTile(props:AlbumTileProps) {
         }
     })
 
-    async function albumTrackResponse(album: Album) {
-        try {
-            const response = await getAlbumTracks(album.id, album.image!)
-            console.log('Here is albumTrackResponse', response)
-            return response
-          } catch (err) {
-            console.log("There was an error in getting track response: ", err)
-          }
-    }
-
-
     async function albumButtonCallback(album: Album) {
 
         if (props.selectedAlbum === album.id) {
