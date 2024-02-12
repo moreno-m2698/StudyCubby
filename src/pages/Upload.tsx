@@ -3,8 +3,6 @@ import AlbumMaker from "../components/UploadPageComponents/AlbumMaker";
 import SingleMaker from "../components/UploadPageComponents/SingleMaker";
 import Tracks from "../components/UploadPageComponents/Tracks";
 
-import '../CSS/upload.css'
-
 function Upload() {
 
   const [selectedRadioButton, setSelectedRadioButton] = useState('Album')
