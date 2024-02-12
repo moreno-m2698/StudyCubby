@@ -1,6 +1,6 @@
 import axios from "axios";
 import { Album } from "../types";
-import { getTrackAudio } from "./ApiCalls";
+import { getTrackAudio } from "./SingleService";
 
 const backendEndpoint = process.env.VITE_ALBUM_ENDPOINT;
 

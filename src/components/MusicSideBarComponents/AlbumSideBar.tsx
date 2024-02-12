@@ -1,7 +1,7 @@
 import { useContext, useState } from "react"
 import { AppContext } from "../AppContextComponent.tsx"
 import {Album} from "../../types.ts"
-import { getAlbums } from '../../services/AlbumAPICalls.tsx';
+import { getAlbums } from '../../services/AlbumService.tsx';
 import { useQuery } from "@tanstack/react-query"
 import AlbumTile from "./AlbumTile.tsx";
 
