@@ -28,7 +28,7 @@ function AppContextComponent() {
   const [playerTracks, setPlayerTracks] = useState<PlayerTracks>({id: 'none', tracks: []});
 
   return (
-    <>
+
       <AppContext.Provider value = {{albums, currentTrackIndex, playerTracks, setCurrentTrackIndex, setAlbums, setPlayerTracks }}>
         <section aria-label={'Music Player'} className = "app__body">
           <div className='visualizer'>
@@ -42,7 +42,7 @@ function AppContextComponent() {
           <Player />
         </footer>
       </AppContext.Provider>
-    </>
+
   )
 }
 

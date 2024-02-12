@@ -1,7 +1,7 @@
 import { useContext } from "react"
 import { AppContext } from "../AppContextComponent.tsx"
 import { Album, Track } from '../../types'
-import { getAlbumTracks } from "../../API/AlbumAPICalls"
+import { getAlbumTracks } from "../../services/AlbumAPICalls.tsx"
 
 import AlbumTrackTile from "./AlbumTrackTile.tsx";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";

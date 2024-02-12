@@ -2,7 +2,7 @@ import { useContext } from "react"
 import { AppContext } from "../AppContextComponent.tsx"
 import MusicTile from "./MusicTile"
 import { Track } from "../../types.ts"
-import { getTracks } from '../../API/ApiCalls';
+import { getTracks } from '../../services/ApiCalls.tsx';
 import { useQuery } from "@tanstack/react-query"
 
 
