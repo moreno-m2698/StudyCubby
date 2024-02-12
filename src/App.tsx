@@ -1,7 +1,7 @@
 import { useState } from "react";
 import {Route, Routes, Link } from "react-router-dom";
-import Upload from "./pages/Upload";
-import Home from "./pages/Home";
+import Upload from "./pages/uploadPage/Upload";
+import Home from "./pages/homePage/Home";
 import { VscThreeBars } from "react-icons/vsc"
 
 function App() {

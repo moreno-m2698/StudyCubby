@@ -1,7 +1,7 @@
 import { useState } from "react";
-import AlbumMaker from "../components/UploadPageComponents/AlbumMaker";
-import SingleMaker from "../components/UploadPageComponents/SingleMaker";
-import Tracks from "../components/UploadPageComponents/Tracks";
+import AlbumMaker from "../../components/UploadPageComponents/AlbumMaker";
+import SingleMaker from "../../components/UploadPageComponents/SingleMaker";
+import Tracks from "../../components/UploadPageComponents/Tracks";
 
 function Upload() {
 

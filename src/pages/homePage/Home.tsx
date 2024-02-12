@@ -1,4 +1,4 @@
-import AppContextComponents from '../components/AppContextComponent'
+import AppContextComponents from '../../components/AppContextComponent'
 
 function Home() {
   return (
