@@ -3,7 +3,6 @@ import {Route, Routes, Link } from "react-router-dom";
 import Upload from "./pages/Upload";
 import Home from "./pages/Home";
 import { VscThreeBars } from "react-icons/vsc"
-import './CSS/app.css'
 
 function App() {
 

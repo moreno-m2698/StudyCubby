@@ -2,9 +2,6 @@ import { useState, createContext } from 'react';
 import { Album, PlayerTracks } from '../types';
 import Visualizer from './VisualizerComponents/Visualizer';
 import Player from './PlayerComponents/Player';
-import '../CSS/content.css';
-import '../CSS/sidebar.css'
-import '../CSS/player.css'
 import PlayerSidebar from './MusicSideBarComponents/PlayerSidebar';
 
 
