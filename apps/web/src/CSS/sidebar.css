@@ -1,0 +1,123 @@
+.sidebar__radio {
+    height: 36px;
+    width: 100%;
+    gap: .5em;
+    display: flex;
+    margin-bottom: .5em;
+}
+
+.sidebar__radio label {
+    flex: 0 1;
+    position: relative;
+    color: rgb(155, 155, 155);
+    font-size: 1.125rem;
+    border-radius: 1em;
+    padding: .4em;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.sidebar__radio input[type='radio'] {
+    display: none;
+}
+
+.sidebar__radio input[type='radio']:checked + label {
+    background: rgba(143, 155, 215, 0.45);
+    color: white;
+    transition: all .2s
+}
+
+.sidebar__content{
+    width: 100%;
+    height: calc(100% - 36px);
+    max-height: 48.75rem;
+    
+}
+
+.outer {
+    overflow:auto;
+}
+
+.sidebar__content li {
+    width: 100%;
+}
+
+.sidebar__content button {
+    background-color: var(--sidebar-color);
+    width: 100%;
+    height: fit-content;
+    display:flex;
+    overflow:hidden;
+    align-items: center;
+    box-sizing: border-box;
+    padding:.5em;
+    gap: .5em;
+    border: none;
+    border-radius:.625em;
+    cursor: pointer;
+}
+
+.album__button {
+    z-index: 3;
+}
+
+.sidebar__content button:is(:hover, :focus-visible) {
+    background-color: rgba(143, 155, 215, 0.45);
+    transition: background-color 0.1s;
+    cursor: pointer;
+}
+
+.sidebar__image {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 6px;
+}
+
+.sidebar__image img {
+    width: 100%;
+    max-width: 3rem;
+    border-radius: 6px;
+}
+
+.sidebar__info {
+    display:flex;
+    flex-direction: column;
+    overflow:hidden;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.sidebar__info > * {
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.sidebar__info h2,h4{
+    color: white;
+    font-size: 1rem;
+}
+
+.sidebar__info h3, h5 {
+    color: #8f9bd7;
+    font-size: .875rem;
+    align-self: flex-start;
+}
+
+.accordion {
+    background-color: var(--sidebar-color);
+    max-height: 0;
+    overflow: hidden;
+    width: 100%;
+    transition: max-height 0.75s cubic-bezier(0,1,0,1);
+}
+
+.accordion--show {
+    background-color: var(--sidebar-color);
+    height: auto;
+    max-height: 9999px;
+    transition: max-height 0.75s cubic-bezier(1,0,1,0);
+
+}
+

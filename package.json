@@ -1,0 +1,14 @@
+{
+  "name": "studycubby",
+  "private": true,
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev:web": "npm run dev -w @studycubby/web",
+    "dev:api": "npm run dev -w @studycubby/api",
+    "start:api": "npm run start -w @studycubby/api",
+    "build": "npm run build -w @studycubby/web",
+    "lint": "npm run lint -w @studycubby/web"
+  }
+}
