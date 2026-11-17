@@ -19,15 +19,7 @@ npm install                       # installs all workspaces
 npm run prisma:generate -w @studycubby/api
 ```
 
-**Web** — copy `apps/web/.env.example` to `apps/web/.env` and set the endpoints, e.g.:
-
-```
-VITE_ALBUM_ENDPOINT = "http://localhost:3000/album"
-VITE_SINGLE_ENDPOINT = "http://localhost:3000/single"
-VITE_TRACK_ENDPOINT = "http://localhost:3000/track"
-```
-
-The build fails if any of these are unset (`vite-plugin-environment` requires them).
+**Web** — the API endpoints default to the local API (`http://localhost:3000/album`, `/single`, `/track`; see `apps/web/vite.config.ts`). To point elsewhere, copy `apps/web/.env.example` to `apps/web/.env` or set `VITE_ALBUM_ENDPOINT`, `VITE_SINGLE_ENDPOINT` and `VITE_TRACK_ENDPOINT` in the environment.
 
 **API** — copy `apps/api/.env.reference` to `apps/api/.env` and set `DATABASE_URL` to a Postgres instance. Old migrations were not carried over; create a fresh one with:
 
