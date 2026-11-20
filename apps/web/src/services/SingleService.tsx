@@ -1,47 +1,16 @@
-import axios from "axios";
+import { Track } from "../types";
+import { api, TrackDto } from "./api";
+import { toTrack } from "./TrackService";
 
-
-const singleEndpoint = process.env.VITE_SINGLE_ENDPOINT;
-
-
-async function getSingleImage(singleID:number) {
+// Singles are albums of type SINGLE with one track; returned as playable tracks.
+export async function getSingle(): Promise<Track[]> {
   try {
-    const imageResponse = await axios.get(`${singleEndpoint}/image/${singleID}`, { responseType: "blob" });
-    let imageBlob = new Blob([imageResponse.data], { type: "image/png" });
-    const imageURL = URL.createObjectURL(imageBlob);
-    return imageURL;
+    const albums = await api.get<{ items: { id: number }[] }>("/albums", { params: { type: "SINGLE" } });
+    const ids = new Set(albums.data.items.map((a) => a.id));
+    const tracks = await api.get<{ items: TrackDto[] }>("/tracks");
+    return tracks.data.items.filter((t) => ids.has(t.albumId)).map((dto) => toTrack(dto));
   } catch (error) {
-    console.log(`There was an error grabbing the art for this single: ${singleID}`, error);
-  }
-};
-
-async function getSingleAudio(singleId: number) {
-  try {
-    const audioResponse = await axios.get(`${singleEndpoint}/play/${singleId}`, { responseType: "blob" });
-    let audioBlob = new Blob([audioResponse.data], { type: "audio/mpeg" });
-    const audioURL = URL.createObjectURL(audioBlob);
-    return audioURL;
-  } catch (error) {
-    console.log(`There was an error grabbing the audio for this single: ${singleId}`, error);
-  }
-};
-
-export async function getSingle() {
-  try {
-    if (singleEndpoint !== undefined) {
-    const singleResponse = await axios.get(singleEndpoint);
-    
-    for (let i = 0; i < singleResponse.data.length; i++) {
-
-      const single = singleResponse.data[i]
-      single.image = await getSingleImage(single.id)
-      single.audio = await getSingleAudio(single.id)
-    
-    }
-
-    return singleResponse.data}
-    } catch (error) {
-      console.error("There was an issue accessing singles", error);
+    console.error("There was an issue accessing singles", error);
+    return [];
   }
 }
-

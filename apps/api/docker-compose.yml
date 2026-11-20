@@ -1,0 +1,24 @@
+# Local Postgres for development and tests. See docs/adr/0002-dev-database-and-media-storage.md.
+# Host port 5433 avoids clashing with any Postgres already installed on 5432.
+name: studycubby
+services:
+  db:
+    image: postgres:17-alpine
+    container_name: studycubby-postgres
+    environment:
+      POSTGRES_USER: studycubby
+      POSTGRES_PASSWORD: studycubby
+      POSTGRES_DB: studycubby_dev
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/initdb:/docker-entrypoint-initdb.d:ro
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U studycubby -d studycubby_dev"]
+      interval: 2s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  pgdata:

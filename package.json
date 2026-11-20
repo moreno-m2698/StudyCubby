@@ -9,6 +9,16 @@
     "dev:api": "npm run dev -w @studycubby/api",
     "start:api": "npm run start -w @studycubby/api",
     "build": "npm run build -w @studycubby/web",
-    "lint": "npm run lint -w @studycubby/web"
+    "build:api": "npm run build -w @studycubby/api",
+    "lint": "npm run lint -w @studycubby/web",
+    "typecheck:api": "npm run typecheck -w @studycubby/api",
+    "test:api": "npm run test -w @studycubby/api",
+    "db:up": "npm run db:up -w @studycubby/api",
+    "db:down": "npm run db:down -w @studycubby/api",
+    "db:migrate": "npm run db:migrate -w @studycubby/api",
+    "db:reset": "npm run db:reset -w @studycubby/api",
+    "db:seed": "npm run db:seed -w @studycubby/api",
+    "db:seed:empty": "npm run db:seed:empty -w @studycubby/api",
+    "db:seed:check": "npm run db:seed:check -w @studycubby/api"
   }
 }

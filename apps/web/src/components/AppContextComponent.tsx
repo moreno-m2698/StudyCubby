@@ -3,6 +3,7 @@ import { Album, PlayerTracks } from '../types';
 import Visualizer from './VisualizerComponents/Visualizer';
 import Player from './PlayerComponents/Player';
 import PlayerSidebar from './MusicSideBarComponents/PlayerSidebar';
+import '../CSS/content.css';
 
 
 export interface AppContextValues {

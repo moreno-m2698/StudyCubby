@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import axios from 'axios';
-
-const singleEndpoint = process.env.VITE_SINGLE_ENDPOINT;
+import { api } from '../../services/api';
 
 function SingleMaker() {
 
@@ -15,27 +13,17 @@ function SingleMaker() {
         event.preventDefault();
         setIsLoading(true)
         if (!imageFile || !trackFile) return    
-          const imageFormData = new FormData();
-          const audioFormData = new FormData();
+          const formData = new FormData();
+          formData.append('type', 'SINGLE')
+          formData.append('title', title)
+          formData.append('artist', artist)
+          formData.append('titles', title)
+          formData.append('tracks', trackFile)
+          formData.append('cover', imageFile)
 
-          audioFormData.append('title', title)
-          audioFormData.append('artist', artist)
-          audioFormData.append('track', trackFile)
-          
-
-          imageFormData.append('cover', imageFile)
-
-          const audioUrl = `${singleEndpoint}/upload/track`
-          const imageUrl = `${singleEndpoint}/upload/image`
-          
-      
           try {
-          const audioResult: any = await axios.post(audioUrl, audioFormData);
-          console.log(audioResult.data.id)
-          imageFormData.append('id',audioResult.data.id)
-          const imageResult: any = await axios.patch(imageUrl, imageFormData);
-          console.log("audio", audioResult);
-          console.log("image", imageResult);
+          const result = await api.post('/albums', formData);
+          console.log(result);
           setIsLoading(false)
           } catch (error) {
 

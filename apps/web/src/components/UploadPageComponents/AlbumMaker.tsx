@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
-import axios from 'axios'
-
-const albumEndpoint = process.env.VITE_ALBUM_ENDPOINT;
+import { api } from '../../services/api'
 
 
 function AlbumMaker() {
@@ -20,10 +18,10 @@ function AlbumMaker() {
           formData.append('title', title)
           formData.append('artist', artist)
 
-          const url = `${albumEndpoint}/upload`
+          const url = '/albums'
           
           try {
-          const result = await axios.post(url, formData)
+          const result = await api.post(url, formData)
           console.log(result);
           setIsLoading(false)
           } catch (error) {

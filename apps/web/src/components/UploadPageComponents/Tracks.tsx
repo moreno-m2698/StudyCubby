@@ -1,10 +1,8 @@
 import React from 'react'
 import { useCallback, useState } from 'react';
-import axios from 'axios';
+import { api } from '../../services/api';
 import { useDropzone } from 'react-dropzone';
 import Preview from './Preview';
-
-const trackEndpoint = process.env.VITE_TRACK_ENDPOINT;
 
 interface fileData {
     id: number,
@@ -71,15 +69,14 @@ function Tracks() {
           for (let i = 0; i < newFileOrder.length; i++) {
             formData.append('tracks', newFileOrder[i]);
           }
-          formData.append('albumID', albumID);
           for (let i = 0; i < fileNameArray.length; i++) {
             formData.append('titles', fileNameArray[i]);
           }
 
-          const url = `${trackEndpoint}/upload`
+          const url = `/albums/${albumID}/tracks`
 
           try {
-            const result = await axios.post(url, formData)
+            const result = await api.post(url, formData)
             console.log(result);
             setIsLoading(false)
           } catch (error) {

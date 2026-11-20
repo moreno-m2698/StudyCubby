@@ -39,3 +39,10 @@ npm-debug.log*
 !.vscode/extensions.json
 .idea/
 .DS_Store
+
+# API dev data (seed media, local storage, generated Prisma client)
+apps/api/fixtures/media/
+apps/api/storage/
+apps/api/src/generated/
+# Real seed manifest names your own music; commit only the template (manifest.example.json)
+apps/api/fixtures/manifest.json
