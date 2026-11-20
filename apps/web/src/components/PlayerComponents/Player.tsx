@@ -1,6 +1,7 @@
 import {useState, useRef, useEffect, useContext, createContext} from 'react'
 import Controls from './Controls';
 import Details from './Details';
+import '../../CSS/player.css';
 import { AppContext } from '../AppContextComponent';
 
 

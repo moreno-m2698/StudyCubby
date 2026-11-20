@@ -2,6 +2,7 @@ import { useState } from "react";
 import SidebarNavigator from "./SidebarNavigator";
 import AlbumSideBar from "./AlbumSideBar";
 import MusicSideBar from "./MusicSideBar";
+import '../../CSS/sidebar.css';
 
 function PlayerSidebar() {
 

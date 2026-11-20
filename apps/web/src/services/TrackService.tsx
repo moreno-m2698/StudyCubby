@@ -1,45 +1,39 @@
-import axios from "axios";
 import { Track } from "../types";
-import { getAlbumImage } from "./AlbumService";
-import { getSingle } from "./SingleService";
+import { api, mediaUrl, TrackDto } from "./api";
 
 interface getTracksResponse {
     isEmpty: boolean
     tracks: Track[]
 }
-  
-const trackEndpoint = process.env.VITE_TRACK_ENDPOINT;
 
-export async function getTrackAudio(trackID: number) {
-    try {
-        const audioResponse = await axios.get(`${trackEndpoint}/play/${trackID}`, { responseType: "blob" });
-        let audioBlob = new Blob([audioResponse.data], { type: "audio/mpeg" });
-        const audioURL = URL.createObjectURL(audioBlob);
-        return audioURL;
-    } catch (error) {
-        console.log(`There was an error grabbing the art for this track: ${trackID}`, error);
-    }
-};
+export function toTrack(dto: TrackDto, imageOverride?: string): Track {
+    return {
+        id: dto.id,
+        title: dto.title,
+        artist: dto.artist,
+        albumId: dto.albumId,
+        index: dto.trackNumber - 1,
+        image: imageOverride ?? (dto.coverUrl ? mediaUrl(dto.coverUrl) : undefined),
+        audio: mediaUrl(dto.audioUrl),
+    };
+}
 
+// Audio is streamed directly by the <audio> element; no blob download needed.
+export function getTrackAudio(trackID: number): Promise<string> {
+    return Promise.resolve(mediaUrl(`/tracks/${trackID}/audio`));
+}
+
+// All visible tracks, singles included (the API returns them in one list).
 export async function getTracks() {
     try {
-      if (trackEndpoint !== undefined) {
-        const trackResponse = await axios.get(trackEndpoint)
-        for (let i=0; i < trackResponse.data.length; i++) {
-  
-            const track = trackResponse.data[i];
-            track.image = await getAlbumImage(track.albumId);
-            track.audio = await getTrackAudio(track.id);
-        }
-        const singleResponse = await getSingle();
-        const all_tracks = [...trackResponse.data, ...singleResponse]
+        const response = await api.get<{ items: TrackDto[] }>("/tracks");
+        const tracks = response.data.items.map((dto) => toTrack(dto));
         const result: getTracksResponse = {
-          isEmpty: (all_tracks.length === 0),
-          tracks: all_tracks
-        }
+            isEmpty: tracks.length === 0,
+            tracks,
+        };
         return result;
-      }
     } catch (error) {
-      console.log("There was an error accessing tracks", error); 
+        console.log("There was an error accessing tracks", error);
     }
-  }
+}

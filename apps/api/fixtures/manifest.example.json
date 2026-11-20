@@ -1,0 +1,29 @@
+{
+  "users": [],
+  "albums": [
+    {
+      "title": "<album-name>",
+      "artist": "<artist>",
+      "type": "ALBUM",
+      "owner": "admin",
+      "dir": "<album-name>",
+      "cover": "cover.png",
+      "tracks": [
+        { "file": "<track-01>.mp3", "title": "<track-01 title>" },
+        { "file": "<track-02>.mp3", "title": "<track-02 title>" },
+        { "file": "<track-03>.mp3", "title": "<track-03 title>" }
+      ]
+    },
+    {
+      "title": "<single-name>",
+      "artist": "<artist>",
+      "type": "SINGLE",
+      "owner": "admin",
+      "dir": "<album-name>",
+      "cover": "cover.png",
+      "tracks": [
+        { "file": "<track-02>.mp3", "title": "<single-name>" }
+      ]
+    }
+  ]
+}

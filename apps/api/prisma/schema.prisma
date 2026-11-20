@@ -1,40 +1,90 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
+// Data model for StudyCubby. See docs/adr/0001-users-ownership-visibility.md
+// and docs/adr/0002-dev-database-and-media-storage.md for the reasoning.
 
 generator client {
-  provider = "prisma-client-js"
+  provider     = "prisma-client"
+  output       = "../src/generated/prisma"
+  moduleFormat = "esm"
 }
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  ADMIN
+  USER
+}
+
+enum AlbumType {
+  ALBUM
+  SINGLE
+  EP
+}
+
+enum MediaKind {
+  AUDIO
+  IMAGE
+}
+
+/// Albums owned by an ADMIN form the public catalog; albums owned by a USER
+/// are visible only to that user. Visibility is derived from the owner's role.
+model User {
+  id        Int      @id @default(autoincrement())
+  username  String   @unique
+  role      Role     @default(USER)
+  createdAt DateTime @default(now())
+  albums    Album[]
+
+  @@index([role])
+}
+
+/// A release. Singles are albums with type SINGLE and exactly one track.
+model Album {
+  id        Int        @id @default(autoincrement())
+  title     String
+  artist    String
+  type      AlbumType  @default(ALBUM)
+  owner     User       @relation(fields: [ownerId], references: [id], onDelete: Cascade)
+  ownerId   Int
+  cover     MediaFile? @relation("AlbumCover", fields: [coverId], references: [id], onDelete: SetNull)
+  coverId   Int?
+  tracks    Track[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+
+  @@index([ownerId])
+  @@index([coverId])
 }
 
 model Track {
-  id       Int      @id @default(autoincrement())
-  title    String
-  location String   @unique
-  index    Int
-  album    Album    @relation("AlbumTracks", fields: [albumId], references: [id])
-  albumId  Int
-  artist   String
-  addedAt  DateTime @default(now())
+  id          Int       @id @default(autoincrement())
+  title       String
+  artist      String
+  /// 1-based position within the album.
+  trackNumber Int
+  album       Album     @relation(fields: [albumId], references: [id], onDelete: Cascade)
+  albumId     Int
+  audio       MediaFile @relation("TrackAudio", fields: [audioId], references: [id], onDelete: Restrict)
+  audioId     Int
+  durationMs  Int?
+  createdAt   DateTime  @default(now())
+
+  @@unique([albumId, trackNumber])
+  @@index([audioId])
 }
 
-model Album {
-  id      Int      @id @default(autoincrement())
-  title   String
-  artist  String
-  addedAt DateTime @default(now())
-  image   Bytes?
-  tracks  Track[]  @relation("AlbumTracks")
-}
-
-model Single {
-  id       Int      @id @default(autoincrement())
-  title    String
-  artist   String
-  addedAt  DateTime @default(now())
-  image    Bytes?
-  location String?
+/// A stored binary, content-addressed by sha256. Bytes live in the storage
+/// driver (local disk in dev), never in the database. Identical uploads share one row.
+model MediaFile {
+  id         Int       @id @default(autoincrement())
+  kind       MediaKind
+  sha256     String    @unique
+  storageKey String    @unique
+  mimeType   String
+  sizeBytes  Int
+  durationMs Int?
+  createdAt  DateTime  @default(now())
+  covers     Album[]   @relation("AlbumCover")
+  tracks     Track[]   @relation("TrackAudio")
 }
